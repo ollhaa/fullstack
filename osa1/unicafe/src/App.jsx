@@ -6,21 +6,24 @@ const App = () => {
   const [neutral, setNeutral] = useState(0)
   const [bad, setBad] = useState(0)
 
+  const addGood = (good) => setGood(good)
+  const addNeutral = (neutral) => setNeutral(neutral)
+  const addBad = (bad) => setBad(bad)
+
+
   const name = 'give feedback'
-  const stats = [
-    {rate: 'good', amount: 6},
-    {rate: 'neutral', amount: 2},
-    {rate: 'bad', amount: 1}
-  ]
+
+
 
   return (
     <div>
       <Header name = {name} />
-      <button>good</button>
-      <button>neutral</button>
-      <button>bad</button>
+      <Button handleClick={() => addGood(good+1)} text="good" />
+      <Button handleClick={() => addNeutral(neutral+1)} text="neutral" />
+      <Button handleClick={() => addBad(bad+1)} text="bad" />
+
       <Header name = 'statistics' />
-      <Content stats = {stats} />
+      <Content stats = {['good', good, 'neutral', neutral, 'bad', bad]} />
     </div>
   )
 }
@@ -34,15 +37,28 @@ const Header = (props) => {
 }
 
 const Content = (props) => {
+  
   return (
     <div>
-      <p> {props.stats[0].rate} {props.stats[0].amount} <br></br>
-          {props.stats[1].rate} {props.stats[1].amount} <br></br>
-          {props.stats[2].rate} {props.stats[2].amount}
+      <p>
+        {props.stats[0]} {props.stats[1]} <br></br>
+        {props.stats[2]} {props.stats[3]} <br></br>
+        {props.stats[4]} {props.stats[5]} <br></br>
+        all {props.stats[1] + props.stats[3] + props.stats[5]} <br></br>
+        avarage {(props.stats[1]*1 + props.stats[3]*0 + props.stats[5]*(-1))/(props.stats[1] + props.stats[3] + props.stats[5])} <br></br>
+        positive {(props.stats[1]*1)/(props.stats[1] + props.stats[3] + props.stats[5])*100} %
 
       </p>
+
+
     </div>
   )
 }
+
+const Button = (props) => (
+  <button onClick={props.handleClick}>
+    {props.text}
+  </button>
+)
 
 export default App
