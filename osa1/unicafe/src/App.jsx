@@ -40,23 +40,32 @@ const Statistics = (props) => {
   if (props.stats[1] == 0 && props.stats[3] == 0 && props.stats[5] == 0) {
     return "No feedback given"
   } else {
+    const all = props.stats[1] + props.stats[3] + props.stats[5]
+    const average = (props.stats[1]*1 + props.stats[3]*0 + props.stats[5]*(-1))/(props.stats[1] + props.stats[3] + props.stats[5])
+    const positive = (props.stats[1]*1)/(props.stats[1] + props.stats[3] + props.stats[5])*100
   
     return (
       <div>
-        <p>
-          {props.stats[0]} {props.stats[1]} <br></br>
-          {props.stats[2]} {props.stats[3]} <br></br>
-          {props.stats[4]} {props.stats[5]} <br></br>
-          all {props.stats[1] + props.stats[3] + props.stats[5]} <br></br>
-          avarage {(props.stats[1]*1 + props.stats[3]*0 + props.stats[5]*(-1))/(props.stats[1] + props.stats[3] + props.stats[5])} <br></br>
-          positive {(props.stats[1]*1)/(props.stats[1] + props.stats[3] + props.stats[5])*100} %
+        <StatisticLine text="good" value ={props.stats[1]} />
+        <StatisticLine text="neutral" value ={props.stats[3]} />
+        <StatisticLine text="bad" value ={props.stats[5]} />
 
-        </p>
+        <StatisticLine text="all" value = {all} />
+        <StatisticLine text="average" value = {average} />
+        <StatisticLine text="positive" value = {positive} /> % 
 
 
       </div>
     )
   }
+}
+
+const StatisticLine = (props) => {
+  return (
+    <div>
+      {props.text} {props.value}
+    </div>
+  )
 }
 
 const Button = (props) => (
