@@ -12,25 +12,38 @@ const App = () => {
     'The only way to go fast, is to go well.'
   ]
 
+
   function getRandomInt(max) {
     return Math.floor(Math.random() * max);
   }
    
   const [selected, setSelected] = useState(0)
-  const showAnecdote = () => setSelected(getRandomInt(8))
-  //const addVote = (vote) => setSelected(vote)
+  const [points, setVoted] = useState(Array(8).fill(0))
+
+  const showAnecdote = () => {
+    setSelected(getRandomInt(8))
+
+  }
+  const addVote = () => {
+    const copy = [...points]
+    copy[selected] +=1
+    setVoted(copy)
+
+  }
 
   const name = "Vote or...vote"
+  const result = "Anecdote with most votes"
 
   return (
     <div>
-      
       <Header name = {name} />
       {anecdotes[selected]} <br></br>
       <p>
       <Button handleClick={() => showAnecdote()} text="next anecdote" />
-      <Button handleClick={() => addVote(vote+1)} text="vote" />
+      <Button handleClick={() => addVote()} text="vote" />
+      <Header name = {result} />
       </p>
+      <Result anecdotes = {anecdotes} points = {points} />
     </div>
   )
 }
@@ -46,6 +59,20 @@ const Header = (props) => {
     <div>
     <h1> {props.name} </h1>
     </div>
+  )
+}
+
+const Result = (props) => {
+  const max = Math.max(...props.points)
+  const index = props.points.indexOf(max)
+  const ans = props.anecdotes[index]
+  return (
+    <>
+      <p>
+        {ans} <br></br>
+        <b>has {max} votes </b>
+      </p>
+    </>
   )
 }
 
