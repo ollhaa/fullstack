@@ -51,12 +51,12 @@ const App = () => {
     <div>
       <h2>Phonebook</h2>
       <form onSubmit={addName}>
-      <input 
+      name: <input 
         value={newName}
         onChange={handleNameChange}
       />
       <br></br>
-      <input 
+      number: <input 
         value={newNumber}
         onChange={handleNumberChange}
       />
