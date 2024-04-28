@@ -23,9 +23,14 @@ const App = () => {
       id: persons.length +1,
       name: newName
     }
+    if(persons.find(props => props.name == nameObject.name)){
+      window.alert(`${newName} is already added to phonebook`)
+    }
+    else{
   
     setPersons(persons.concat(nameObject))
     setNewName('')
+    }
   }
   
   const handleNameChange = (event) => {
@@ -49,8 +54,8 @@ const App = () => {
       <h2>Numbers</h2>
 
       {persons.map(name => 
-      <li>
-        {name.name}
+      <li
+        key = {name.id}> {name.name}
       </li>)}
 
     </div>
