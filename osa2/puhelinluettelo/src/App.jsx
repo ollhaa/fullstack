@@ -3,12 +3,39 @@ import reactLogo from './assets/react.svg'
 import viteLogo from '/vite.svg'
 //import './App.css'
 
+const Persons = ({ persons }) => {
+  return(
+  persons.map(name => 
+    <li
+      key = {name.id}> {name.name} {name.number}
+    </li>)
 
+)}
+
+const PersonForm = ({newName, newNumber, addName, handleNameChange, handleNumberChange}) => {
+  return(
+  <form onSubmit={addName}>
+      name: <input 
+        value={newName}
+        onChange={handleNameChange}
+      />
+      <br></br>
+      number: <input 
+        value={newNumber}
+        onChange={handleNumberChange}
+      />
+
+        <div>
+          <button type="submit">add</button>
+        </div>
+    </form>
+  )
+}
 
 const App = () => {
   //const persons = []
   const [persons, setPersons] = useState([
-    //{ name: 'Arto Hellas' },
+    //{ name: 'Arto Hellas' }
     //{ name: 'Ari Helle' }
   ]) 
 
@@ -47,35 +74,30 @@ const App = () => {
     setNewNumber(event.target.value)
   }
 
-  return (
-    <div>
-      <h2>Phonebook</h2>
-      <form onSubmit={addName}>
-      name: <input 
-        value={newName}
-        onChange={handleNameChange}
-      />
-      <br></br>
-      number: <input 
-        value={newNumber}
-        onChange={handleNumberChange}
-      />
 
-        <div>
-          <button type="submit">add</button>
-        </div>
-      </form>
-      <h2>Numbers</h2>
-
-      {persons.map(name => 
-      <li
-        key = {name.id}> {name.name} {name.number}
-      </li>)}
-
-    </div>
-  )
-
-}
+  
+    return (
+      <div>
+        <h2>Phonebook</h2>
+  
+  
+        <h3>Add a new</h3>
+  
+        <PersonForm addName={addName}
+                    newName={newName}
+                    newNumber={newNumber}
+                    handleNameChange={handleNameChange}
+                    handleNumberChange={handleNumberChange}
+                    setNewName
+        
+        />
+  
+        <h3>Numbers</h3>
+  
+        <Persons persons={persons}  />
+      </div>
+    )
+  }
 
 
 export default App
