@@ -36,10 +36,7 @@ const PersonForm = ({newName, newNumber, addName, handleNameChange, handleNumber
 }
 
 const App = () => {
-  //const persons = []
   const [persons, setPersons] = useState([
-    //{ name: 'Arto Hellas' }
-    //{ name: 'Ari Helle' }
   ]) 
 
   const [newName, setNewName] = useState('')
@@ -60,19 +57,26 @@ const App = () => {
   const addName = (event) => {
     event.preventDefault()
     console.log('button clicked', event.target)
+    let id = persons.length +1
     const nameObject = {
-      id: persons.length +1,
       name: newName,
-      number: newNumber
+      number: newNumber,
+      id: id.toString()
     }
     if(persons.find(props => props.name == nameObject.name)){
       window.alert(`${newName} is already added to phonebook`)
     }
     else {
-  
-    setPersons(persons.concat(nameObject))
-    setNewName('')
-    setNewNumber('')
+      axios
+    .post('http://localhost:3001/persons', nameObject)
+    .then(response => {
+      setPersons(persons.concat(response.data))
+      setNewName('')
+      setNewNumber('')
+    })
+    //setPersons(persons.concat(nameObject))
+    //setNewName('')
+    //setNewNumber('')
     }
   }
   
