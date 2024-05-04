@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react'
 import axios from 'axios'
+import personServise from './services/persons'
 import reactLogo from './assets/react.svg'
 import viteLogo from '/vite.svg'
 //import './App.css'
@@ -43,12 +44,10 @@ const App = () => {
   const [newNumber, setNewNumber] = useState('')
 
   useEffect(() => {
-    console.log('effect')
-    axios
-      .get('http://localhost:3001/persons')
-      .then(response => {
-        console.log('promise fulfilled')
-        setPersons(response.data)
+    personServise
+    .getAll()
+    .then(initialPersons => {
+      setPersons(initialPersons)
       })
   }, [])
 
@@ -63,21 +62,17 @@ const App = () => {
       number: newNumber,
       id: id.toString()
     }
-    if(persons.find(props => props.name == nameObject.name)){
-      window.alert(`${newName} is already added to phonebook`)
-    }
-    else {
-      axios
-    .post('http://localhost:3001/persons', nameObject)
-    .then(response => {
-      setPersons(persons.concat(response.data))
-      setNewName('')
-      setNewNumber('')
-    })
-    //setPersons(persons.concat(nameObject))
-    //setNewName('')
-    //setNewNumber('')
-    }
+
+    personServise
+    .create(nameObject)
+    .then(returnedPerson => {
+    setPersons(persons.concat(returnedPerson))
+    setNewName('')
+    setNewNumber('')
+  })
+  
+
+    
   }
   
   const handleNameChange = (event) => {
