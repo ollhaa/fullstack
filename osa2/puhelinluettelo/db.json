@@ -19,5 +19,31 @@
       "name": "Mary Poppendieck",
       "number": "39-23-6423122",
       "id": "4"
-    }]
+    },
+    {
+      "id": "5",
+      "name": "korso",
+      "number": "10210012"
+    },
+    {
+      "id": "6",
+      "name": "martin",
+      "number": "234232"
+    },
+    {
+      "id": "7",
+      "name": "wews",
+      "number": "878978788"
+    },
+    {
+      "id": "8",
+      "name": "kouvola",
+      "number": "565566"
+    },
+    {
+      "id": "9",
+      "name": "miiksi",
+      "number": "99384844"
+    }
+  ]
 }

@@ -20,6 +20,22 @@ const Persons = (props) => {
   )
 )}
 
+const Notification = ({ message }) => {
+  if (message === null) {
+    return(
+    <div className="succeed">
+    {"OK"}
+  </div>
+    )
+  }
+  else {
+  return (
+    <div className="error">
+      {message}
+    </div>
+  )
+}
+}
 
 
 const Button = ({type, text, handleAction}) => {
@@ -54,6 +70,7 @@ const App = () => {
   const [newMessage, setnewMessage] = useState('')
   const [newName, setNewName] = useState('')
   const [newNumber, setNewNumber] = useState('')
+  const [errorMessage, setErrorMessage] = useState(null)
 
   useEffect(() => {
     personServise
@@ -71,6 +88,14 @@ const App = () => {
     if (window.confirm("Do you really want to delete this?")) {
       personServise
       .erasePerson(id)
+      .catch(error => {
+        setErrorMessage(
+          `Note '${person}' was already removed from server`
+        )
+        setTimeout(() => {
+          setErrorMessage(null)
+        }, 2000)
+      })
       .then(() => {
         setPersons(persons)
         handleMessage("Done")
@@ -80,6 +105,7 @@ const App = () => {
     })
 
   }
+  
   }
 }
   
@@ -101,6 +127,10 @@ const App = () => {
     setPersons(persons.concat(returnedPerson))
     setNewName('')
     setNewNumber('')
+   
+    setTimeout(() => {
+      setErrorMessage(null)
+    }, 2000)
   })
   
   }
@@ -125,7 +155,7 @@ const App = () => {
       <div>
         <h2>Phonebook</h2>
   
-  
+        <Notification message={errorMessage} />
         <h3>Add a new</h3>
   
         <PersonForm addName={addName}
