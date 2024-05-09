@@ -5,16 +5,28 @@ import reactLogo from './assets/react.svg'
 import viteLogo from '/vite.svg'
 //import './App.css'
 
-
-
-const Persons = ({ persons }) => {
+const Person = ({name, id, number, deletePerson}) => {
   return(
-  persons.map(name => 
-    <li
-      key = {name.id}> {name.name} {name.number}
-    </li>)
+  <li>
+    {name} {number} <Button type="submit" handleAction= {deletePerson(id)}  text="DELETE"/>
+  </li>
+  )
+}
 
+const Persons = (props) => {
+  return(
+  props.persons.map(person => 
+    <Person key={person.id} name={person.name} number={person.number} deletePerson = {props.handleDeletePerson} />
+  )
 )}
+
+
+
+const Button = ({type, text, handleAction}) => {
+  return (
+  <button type ={type} onClick={handleAction} > {text} </button>
+)
+}
 
 const PersonForm = ({newName, newNumber, addName, handleNameChange, handleNumberChange}) => {
   return(
@@ -30,7 +42,7 @@ const PersonForm = ({newName, newNumber, addName, handleNameChange, handleNumber
       />
 
         <div>
-          <button type="submit">add</button>
+          <Button type="submit" text ="add"></Button>
         </div>
     </form>
   )
@@ -39,7 +51,7 @@ const PersonForm = ({newName, newNumber, addName, handleNameChange, handleNumber
 const App = () => {
   const [persons, setPersons] = useState([
   ]) 
-
+  const [newMessage, setnewMessage] = useState('')
   const [newName, setNewName] = useState('')
   const [newNumber, setNewNumber] = useState('')
 
@@ -52,6 +64,26 @@ const App = () => {
   }, [])
 
   
+  const handleDeletePerson = (id) => {
+    //console.log(id)
+    return() => {
+    const person = persons.find(n => n.id === id)
+    if (window.confirm("Do you really want to delete this?")) {
+      personServise
+      .erasePerson(id)
+      .then(() => {
+        setPersons(persons)
+        handleMessage("Done")
+        setTimeout(() => {
+          handleMessage(null), 3000
+        })
+    })
+
+  }
+  }
+}
+  
+
   //const setNewName
   const addName = (event) => {
     event.preventDefault()
@@ -71,10 +103,12 @@ const App = () => {
     setNewNumber('')
   })
   
-
-    
   }
-  
+
+  const handleMessage = (message) => {
+    setnewMessage(message)
+  }
+    
   const handleNameChange = (event) => {
     console.log(event.target.value)
     setNewName(event.target.value)
@@ -105,7 +139,9 @@ const App = () => {
   
         <h3>Numbers</h3>
   
-        <Persons persons={persons}  />
+        <Persons persons={persons}
+          handleDeletePerson ={handleDeletePerson}
+          />
       </div>
     )
   }
