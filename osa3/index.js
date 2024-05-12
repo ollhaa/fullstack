@@ -24,10 +24,6 @@ let persons = [
   }
 ]
 
-//app.get('/', (request, response) => {
-//  response.send('<h1>Hello World!</h1>')
-//})
-
 app.get('/api/persons', (request, response) => {
   response.json(persons)
 })
@@ -41,6 +37,14 @@ app.get('/api/persons/:id', (request, response) => {
   } else {
     response.status(404).end()
   }
+})
+
+app.delete('/api/persons/:id', (request, response) => {
+  const id = Number(request.params.id)
+  persons = persons.filter(p => p.id !== id)
+  //console.log(persons)
+
+  response.status(204).end()
 })
 
 
