@@ -54,6 +54,15 @@ const generateId = () => {
   return newId
 }
 
+const nameChecker = (name) => {
+  if (persons.find(object => object.name === name)) {
+    return true
+  }
+
+  return false
+
+}
+
 app.post('/api/persons', (request, response) => {
   const body = request.body
   //console.log(request)
@@ -65,6 +74,10 @@ app.post('/api/persons', (request, response) => {
   } else if (!body.number) {
     return response.status(400).json({ 
       error: 'number missing' 
+    })
+  } else if(nameChecker(body.name)) {
+    return response.status(400).json({ 
+      error: 'name is already added!' 
     })
   }
 
