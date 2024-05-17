@@ -1,6 +1,9 @@
+require('dotenv').config()
 const express = require('express')
 const morgan = require('morgan')
 const cors = require('cors')
+const Person = require('./models/person')
+//const person = require('./models/person')
 
 
 const app = express()
@@ -34,19 +37,16 @@ let persons = [
 ]
 
 app.get('/api/persons', (request, response) => {
-  response.json(persons)
+  Person.find({}).then(persons => {
+    response.json(persons)
+  })
 })
 
-app.get('/api/persons/:id', (request, response) => {
-  const id = Number(request.params.id)
-  const person = persons.find(p => p.id === id)
-
-  if (person) {
-    response.json(person)
-  } else {
-    response.status(404).end()
-  }
-})
+//app.get('/api/persons/:id', (request, response) => {
+//  Person.findById(request.params.id).then(person => {
+//    response.json(person)
+//  })
+//})
 
 app.delete('/api/persons/:id', (request, response) => {
   const id = Number(request.params.id)
@@ -72,8 +72,6 @@ const nameChecker = (name) => {
 
 app.post('/api/persons', (request, response) => {
   const body = request.body
-  //console.log(request)
-  //console.log(body)
   if (!body.name) {
     return response.status(400).json({ 
       error: 'name missing' 
@@ -88,17 +86,16 @@ app.post('/api/persons', (request, response) => {
     })
   }
 
-  //console.log("tt")
 
-  const person = {
+  const person = new Person({
     name: body.name,
     number: body.number,
     id: generateId(),
-  }
+  })
 
-  persons = persons.concat(person)
-
-  response.json(person)
+  person.save().then(savedPerson => {
+    response.json(savedPerson)
+  })
 })
 
 
@@ -111,7 +108,7 @@ app.get('/api/info', (request, response) => {
     response.json(rawtext)
   })
 
-  const PORT = process.env.PORT || 3001
+const PORT = process.env.PORT
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`)
 })
