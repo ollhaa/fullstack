@@ -106,6 +106,7 @@ const App = () => {
         }) 
         .catch(error => {
           setErrorMessage(`[error] ${error.response.data.error}`)
+          console.log(error.response.data)
         })
       }         
   }
