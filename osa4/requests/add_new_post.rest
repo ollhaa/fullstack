@@ -1,0 +1,11 @@
+POST http://localhost:3001/api/blogs
+Content-Type: application/json
+#Content-Type: text/html
+
+
+{
+    "title": "New post",
+    "author": "A.Kivi",
+    "url": "www.blogi.fi",
+    "likes": 0
+}
