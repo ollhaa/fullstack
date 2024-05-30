@@ -4,8 +4,8 @@ Content-Type: application/json
 
 
 {
-    "title": "New post",
-    "author": "A.Kivi",
-    "url": "www.blogi.fi",
+    "title": "New post2",
+    "author": "A.Kivinen",
+    "url": "www.blogis.fi",
     "likes": 0
 }
