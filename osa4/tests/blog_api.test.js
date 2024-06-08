@@ -60,9 +60,42 @@ test('the identity field is id', async() =>{
 
     const ids = response.body.map(e => e.id)
     assert(ids.includes('5a422aa71b54a676234d17f8'))
-
-  
 })
+
+test('increaces the number of blogs by one', async() => {
+
+    let newBlog = 
+        {
+          _id: "5a422ba71b54a676234d17fb",
+          title: "TDD harms architecture",
+          author: "Robert C. Martin",
+          url: "http://blog.cleancoder.com/uncle-bob/2017/03/03/TDD-Harms-Architecture.html",
+          likes: 0,
+          __v: 0,
+      }
+    //await blogObject.save()
+    await api
+      .post('/api/blogs')
+      .send(newBlog)
+      .expect(201)
+      .expect('Content-Type', /application\/json/)
+
+    const response = await api.get('/api/blogs')
+
+    assert.strictEqual(response.body.length, initialBlogs.length +1)
+})
+
+test.only('decreaces the number of blogs by one', async() => {
+
+    let blogToDelete = initialBlogs[1]
+    await api
+      .delete(`/api/blogs/${blogToDelete._id}`)
+      .expect(204)
+
+    const response = await api.get('/api/blogs')
+    assert.strictEqual(response.body.length, 1)
+})
+
 
 
 after(async () => {
