@@ -1,6 +1,6 @@
 POST http://localhost:3001/api/blogs
 Content-Type: application/json
-#Content-Type: text/html
+Authorization: Bearer 1q2w3e4r5t6y7
 
 
 {
